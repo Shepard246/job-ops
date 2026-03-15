@@ -8,13 +8,13 @@ import {
 export const ollamaStrategy = createProviderStrategy({
   provider: "ollama",
   defaultBaseUrl: "http://localhost:11434",
-  requiresApiKey: false,
+  requiresApiKey: true,
   modes: ["json_schema", "text", "none"],
   validationPaths: ["/v1/models", "/api/tags"],
-  buildRequest: ({ mode, baseUrl, model, messages, jsonSchema }) => {
+  buildRequest: ({ mode, baseUrl, apiKey, model, messages, jsonSchema }) => {
     return {
       url: joinUrl(baseUrl, "/v1/chat/completions"),
-      headers: buildHeaders({ apiKey: null, provider: "ollama" }),
+      headers: buildHeaders({ apiKey: apiKey ? apiKey : null, provider: "ollama" }),
       body: buildChatCompletionsBody({ mode, model, messages, jsonSchema }),
     };
   },

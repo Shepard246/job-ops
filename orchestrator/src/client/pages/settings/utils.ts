@@ -44,19 +44,19 @@ const PROVIDERS_WITH_API_KEY = new Set<LlmProviderId>([
   "openai",
   "openai_compatible",
   "gemini",
+  "ollama",
 ]);
 
-const PROVIDERS_WITH_BASE_URL = new Set<LlmProviderId>([
-  "lmstudio",
-  "ollama",
-  "openai_compatible",
-]);
+const BASE_URL_PROVIDERS = ["lmstudio", "ollama", "openai_compatible"] as const;
+const PROVIDERS_WITH_BASE_URL = new Set<LlmProviderId>(
+  BASE_URL_PROVIDERS
+);
 
 const PROVIDER_HINTS: Record<LlmProviderId, string> = {
   openrouter:
     "OpenRouter uses your API key and supports model routing across providers.",
   lmstudio: "LM Studio runs locally via its OpenAI-compatible server.",
-  ollama: "Ollama typically runs locally and does not require an API key.",
+  ollama: "Ollama typically runs locally and does not require an API key, but one can be provided",
   openai: "OpenAI uses the Responses API with structured outputs.",
   openai_compatible:
     "Use a bearer token with any chat-completions-compatible endpoint.",
@@ -66,13 +66,14 @@ const PROVIDER_HINTS: Record<LlmProviderId, string> = {
 const PROVIDER_KEY_HELPERS: Record<LlmProviderId, string> = {
   openrouter: "Create a key at openrouter.ai",
   lmstudio: "No API key required for LM Studio",
-  ollama: "No API key required for Ollama",
+  ollama: "No API key required for Ollama, but can be used",
   openai: "Create a key at platform.openai.com",
   openai_compatible: "Use the bearer token issued by your compatible provider",
   gemini: "Create a key at aistudio.google.com/api-keys",
 };
 
-const BASE_URL_PROVIDERS = ["lmstudio", "ollama", "openai_compatible"] as const;
+
+
 type BaseUrlProviderId = (typeof BASE_URL_PROVIDERS)[number];
 
 const PROVIDER_BASE_URLS: Record<BaseUrlProviderId, string> = {
